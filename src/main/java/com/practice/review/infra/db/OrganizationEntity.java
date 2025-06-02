@@ -11,6 +11,7 @@ import java.util.UUID;
 @Table(name = "organizations")
 @Getter
 @Setter
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrganizationEntity {

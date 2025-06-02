@@ -28,7 +28,7 @@ public class RegistryConfig {
 
     public @Bean ReviewIngestionRegistry reviewIngestionRegistry(@Autowired ReviewSource internalReviewSource) {
         ReviewIngestionRegistry registry = new DefaultReviewIngestionRegistry();
-        registry.register(InternalReviewSourceId.VALUE, internalReviewSource.ingestionAdapter().get());
+        //registry.register(InternalReviewSourceId.VALUE, internalReviewSource.ingestionAdapter().get());
         return registry;
     }
 

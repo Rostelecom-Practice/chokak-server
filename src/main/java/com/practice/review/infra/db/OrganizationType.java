@@ -6,5 +6,5 @@ public enum OrganizationType {
     CINEMA_AND_CONCERTS,
     PARKS_AND_MUSEUMS,
     SHOPPING_AND_STORES,
-    HOSTELS
+    HOTELS_AND_HOSTELS
 }
