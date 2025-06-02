@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
-
+@Entity
 @Table(name = "organizations")
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrganizationEntity {
@@ -22,13 +21,15 @@ public class OrganizationEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String city;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrganizationType type;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String address;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "building_id", nullable = false)
+    private BuildingEntity building;
+
+    public String getAddress() {
+        return building.getFullAddress();
+    }
 }

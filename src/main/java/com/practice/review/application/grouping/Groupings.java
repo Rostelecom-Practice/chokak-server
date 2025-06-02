@@ -11,7 +11,7 @@ public final class Groupings {
         return new GroupingByOrganization(organizationId);
     }
 
-    public static Grouping byCity(String city) {
+    public static Grouping byCity(Integer city) {
         return new GroupingByCity(city);
     }
 
@@ -37,13 +37,13 @@ public final class Groupings {
     }
 
     public static class GroupingByCity implements Grouping {
-        private final String city;
+        private final Integer city;
 
-        public GroupingByCity(String city) {
+        public GroupingByCity(Integer city) {
             this.city = city;
         }
 
-        public String getCity() {
+        public Integer getCity() {
             return city;
         }
 

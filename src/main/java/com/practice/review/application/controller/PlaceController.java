@@ -30,7 +30,7 @@ public class PlaceController {
 
     @GetMapping
     public List<PlaceDto> getPlacesByCityAndCategory(
-            @RequestParam String city,
+            @RequestParam int city,
             @RequestParam int categoryId,
             @RequestParam(defaultValue = "10") int count
     ) {

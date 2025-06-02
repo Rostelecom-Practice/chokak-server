@@ -8,7 +8,7 @@ import java.util.UUID;
 public record ReviewRequestDto(
         GroupingType groupingType,
         UUID organizationId,
-        String city,
+        Integer city,
         UUID authorId,
         int limit,
         ReviewSorting sorting

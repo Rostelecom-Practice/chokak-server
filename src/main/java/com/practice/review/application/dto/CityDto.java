@@ -1,3 +1,3 @@
 package com.practice.review.application.dto;
 
-public record CityDto(String name) {}
+public record CityDto(Integer id, String name) {}

@@ -33,8 +33,8 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
                 return limit(reviews, selection);
             }
             case BY_CITY -> {
-                String city = ((Groupings.GroupingByCity) grouping).getCity();
-                List<OrganizationEntity> orgs = organizationRepository.findByCityIgnoreCase(city);
+                Integer city = ((Groupings.GroupingByCity) grouping).getCity();
+                List<OrganizationEntity> orgs = organizationRepository.findALlByCityId(city);
                 if (orgs.isEmpty()) {
                     return List.of();
                 }

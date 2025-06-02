@@ -6,6 +6,7 @@ import com.practice.review.application.dto.PlaceDto;
 import com.practice.review.application.review.ReviewResponseBuilder;
 import com.practice.review.application.review.ReviewSorting;
 import com.practice.review.core.ReviewDetails;
+import com.practice.review.infra.db.CityRepository;
 import com.practice.review.infra.db.OrganizationEntity;
 import com.practice.review.infra.db.OrganizationRepository;
 import com.practice.review.infra.db.OrganizationType;
@@ -24,13 +25,13 @@ public class PlaceQueryService {
 
     private final ReviewQueryService reviewQueryService;
 
+    private final CityRepository cityRepository;
+
     public List<CityDto> getAllCities() {
-        return organizationRepository.findAll().stream()
-                .map(OrganizationEntity::getCity)
-                .distinct()
-                .sorted()
-                .map(CityDto::new)
-                .toList();
+        return cityRepository.findAll()
+                .stream()
+                .map(city -> new CityDto(city.getId(), city.getName()))
+                .collect(Collectors.toList());
     }
 
     public List<CategoryDto> getAllCategories() {
@@ -39,7 +40,7 @@ public class PlaceQueryService {
                 .toList();
     }
 
-    public List<PlaceDto> getPlacesByCityAndCategory(String city, OrganizationType category, int count) {
+    public List<PlaceDto> getPlacesByCityAndCategory(Integer city, OrganizationType category, int count) {
         List<ReviewDetails> relevantReviews = ReviewResponseBuilder
                 .group(byCity(city))
                 .executeBy(reviewQueryService)
@@ -82,11 +83,8 @@ public class PlaceQueryService {
 
 
     public Optional<String> resolveCityNameById(int cityId) {
-        return organizationRepository.findAll().stream()
-                .map(OrganizationEntity::getCity)
-                .distinct()
-                .filter(c -> c.hashCode() == cityId)
-                .findFirst();
+        return cityRepository.findById(cityId).isPresent() ?
+                Optional.of(cityRepository.findById(cityId).get().getName()) : Optional.empty();
     }
 
     public Optional<OrganizationType> resolveCategoryById(int categoryId) {

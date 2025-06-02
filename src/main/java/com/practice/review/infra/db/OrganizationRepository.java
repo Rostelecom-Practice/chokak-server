@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public interface OrganizationRepository extends JpaRepository<OrganizationEntity, UUID> {
 
-    List<OrganizationEntity> findByCityIgnoreCase(String city);
 
-    List<OrganizationEntity> findByCityAndType(String city, OrganizationType type);
+    List<OrganizationEntity> findALlByCityId(Integer cityId);
+
 
 }
