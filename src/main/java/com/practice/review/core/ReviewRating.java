@@ -3,6 +3,7 @@ package com.practice.review.core;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public class ReviewRating {
 

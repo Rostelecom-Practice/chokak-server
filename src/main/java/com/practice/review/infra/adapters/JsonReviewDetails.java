@@ -5,6 +5,7 @@ import com.practice.review.core.ReviewDetails;
 import com.practice.review.core.ReviewRating;
 import com.practice.review.core.ReviewReactions;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class JsonReviewDetails implements ReviewDetails {
 
     private UUID id;
@@ -24,7 +26,7 @@ public class JsonReviewDetails implements ReviewDetails {
     private String content;
     private Map<ReviewReactions, Integer> reactions;
     private Optional<UUID> parentId;
-    private Instant createdAt;
+    private Instant publishedAt;
     private ReviewRating rating;
 
     @Override
@@ -69,9 +71,8 @@ public class JsonReviewDetails implements ReviewDetails {
 
     @Override
     public Instant getPublishedAt() {
-        return createdAt;
+        return publishedAt;
     }
-
 
     @Override
     public ReviewRating getRating() {
