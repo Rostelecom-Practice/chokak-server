@@ -4,9 +4,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
+@Getter
 public class ReviewReactions {
 
-    public static enum Type {
+    public enum Type {
         LIKE, DISLIKE, EMOJI
     }
 
@@ -23,16 +24,16 @@ public class ReviewReactions {
         this(value, Type.EMOJI);
     }
 
-    private static char LIKE_INSTANCE = 'L';
+    private static final ReviewReactions LIKE_INSTANCE = new ReviewReactions('L', Type.LIKE);
 
-    private static char DISLIKE_INSTANCE = 'D';
+    private static final ReviewReactions DISLIKE_INSTANCE = new ReviewReactions('D', Type.DISLIKE);
 
     public static ReviewReactions like() {
-        return new ReviewReactions(LIKE_INSTANCE, Type.LIKE);
+        return LIKE_INSTANCE;
     }
 
     public static ReviewReactions dislike() {
-        return new ReviewReactions(DISLIKE_INSTANCE, Type.DISLIKE);
+        return DISLIKE_INSTANCE;
     }
 
 }

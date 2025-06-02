@@ -9,29 +9,27 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequiredArgsConstructor
-@Getter
-public class ReviewDetails {
+public interface ReviewDetails {
 
-    private final UUID id;
+    UUID getId();
 
-    private final UUID authorId;
+    UUID getAuthorId();
 
-    private final UUID sourceId;
+    UUID getSourceId();
 
-    private final UUID organizationId;
+    UUID getOrganizationId();
 
-    private final String title;
+    String getTitle();
 
-    private final String content;
+    String getContent();
 
-    private final Map<ReviewReactions, Integer> reactions;
+    Map<ReviewReactions, Integer> getReactions();
 
-    private final Optional<UUID> parentReviewId;
+    Optional<UUID> getParentReviewId();
 
-    private final Instant publishedAt;
+    Instant getPublishedAt();
 
-    @Setter
-    private ReviewRating rating;
+    ReviewRating getRating();
 
+    void setRating(ReviewRating rating);
 }

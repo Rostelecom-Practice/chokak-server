@@ -7,7 +7,6 @@ import java.util.UUID;
 public interface ReviewQueryService {
 
     List<ReviewDetails> getReviewsByOrganization(UUID orgId);
-
     Optional<ReviewDetails> getReview(UUID reviewId);
 
 }
