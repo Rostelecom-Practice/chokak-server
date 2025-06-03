@@ -1,6 +1,7 @@
 package com.practice.review.application.dto;
 
 import com.practice.review.core.ReviewDetails;
+import com.practice.review.infra.db.ReviewEntity;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -25,6 +26,19 @@ public record ReviewResponseDto(
                 details.getContent(),
                 details.getPublishedAt(),
                 (int)(details.getRating().getValueBase5() * 5)
+        );
+    }
+
+    public static ReviewResponseDto from(ReviewEntity entity) {
+        return new ReviewResponseDto(
+                entity.getId(),
+                entity.getAuthorId(),
+                entity.getSourceId(),
+                entity.getOrganizationId(),
+                entity.getTitle(),
+                entity.getContent(),
+                entity.getPublishedAt(),
+                entity.getRating()
         );
     }
 }
