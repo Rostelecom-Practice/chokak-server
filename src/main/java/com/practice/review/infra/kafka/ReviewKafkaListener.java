@@ -10,7 +10,7 @@ public class ReviewKafkaListener {
     private final ReviewIngestionHandler handler;
 
     @FunctionalInterface
-    public static interface ReviewIngestionHandler {
+    public interface ReviewIngestionHandler {
         void handle(ReviewDetails details);
     }
 

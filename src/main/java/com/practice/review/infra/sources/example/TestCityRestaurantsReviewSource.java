@@ -17,6 +17,8 @@ public class TestCityRestaurantsReviewSource implements ReviewSource {
 
     private final TestCommandService commandService;
 
+    private final TestIngestionAdapter ingestionAdapter;
+
     @Override
     public UUID sourceId() {
         return id;
@@ -33,8 +35,8 @@ public class TestCityRestaurantsReviewSource implements ReviewSource {
     }
 
     @Override
-    public Optional<ReviewIngestionAdapter> ingestionAdapter() {
-        return Optional.empty();
+    public Optional<TestIngestionAdapter> ingestionAdapter() {
+        return Optional.of(ingestionAdapter);
     }
 
 }

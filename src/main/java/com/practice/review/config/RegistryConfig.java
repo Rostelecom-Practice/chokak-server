@@ -3,9 +3,11 @@ package com.practice.review.config;
 import com.practice.review.application.registry.*;
 import com.practice.review.core.ReviewCommandService;
 import com.practice.review.core.ReviewSource;
+import com.practice.review.infra.kafka.KafkaListenerBeanFactory;
 import com.practice.review.infra.sources.InternalReviewSourceId;
 import com.practice.review.infra.sources.example.TestCityRestaurantsReviewSource;
 import com.practice.review.infra.sources.example.TestCommandService;
+import com.practice.review.infra.sources.example.TestIngestionAdapter;
 import com.practice.review.infra.sources.example.TestSnapshotImporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,9 +20,12 @@ import java.util.UUID;
 @ComponentScan
 public class RegistryConfig {
 
-    public @Bean ReviewSource testCityRestaurantsReviewSource(@Autowired TestSnapshotImporter testSnapshotImporter,
-                                                              @Autowired TestCommandService testCommandService) {
-        return new TestCityRestaurantsReviewSource(UUID.randomUUID(), testSnapshotImporter, testCommandService);
+    public @Bean TestCityRestaurantsReviewSource testCityRestaurantsReviewSource
+            (@Autowired TestSnapshotImporter testSnapshotImporter,
+             @Autowired TestCommandService testCommandService,
+             @Autowired TestIngestionAdapter testIngestionAdapter) {
+        return new TestCityRestaurantsReviewSource(UUID.randomUUID(), testSnapshotImporter, testCommandService,
+                testIngestionAdapter);
     }
 
 
@@ -40,9 +45,11 @@ public class RegistryConfig {
         return registry;
     }
 
-    public @Bean ReviewIngestionRegistry reviewIngestionRegistry(@Autowired ReviewSource internalReviewSource) {
+    public @Bean ReviewIngestionRegistry reviewIngestionRegistry(@Autowired KafkaListenerBeanFactory kafkaListenerBeanFactory,
+                                                                 @Autowired TestCityRestaurantsReviewSource testCityRestaurantsReviewSource) {
         ReviewIngestionRegistry registry = new DefaultReviewIngestionRegistry();
         //registry.register(InternalReviewSourceId.VALUE, internalReviewSource.ingestionAdapter().get());
+        kafkaListenerBeanFactory.registerReviewListener(testCityRestaurantsReviewSource.ingestionAdapter().get());
         return registry;
     }
 

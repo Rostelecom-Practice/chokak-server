@@ -10,6 +10,6 @@ public interface ReviewSource {
 
     Optional<ReviewCommandService> commandService();
 
-    Optional<ReviewIngestionAdapter> ingestionAdapter();
+    Optional<? extends ReviewIngestionAdapter> ingestionAdapter();
 
 }
