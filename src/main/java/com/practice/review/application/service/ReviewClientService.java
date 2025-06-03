@@ -19,23 +19,25 @@ public class ReviewClientService {
     private final ReviewCommandFacade reviewCommandFacade;
     private final ReviewSourceManager reviewSourceManager;
 
-    public ReviewSubmissionResultDto publishReview(SubmitReviewDto dto) {
+    public ReviewSubmissionResultDto publishReview(SubmitReviewDto dto, String userId) {
         UUID resolvedSourceId = resolveSourceId(dto.getSourceId());
+        dto.setAuthorId(UUID.fromString(userId));
         ReviewDetails review = dto.toDetails(resolvedSourceId);
         reviewCommandFacade.submitReview(resolvedSourceId, review);
         return new ReviewSubmissionResultDto(review.getId(), resolvedSourceId);
     }
 
-    public ReviewSubmissionResultDto publishReply(UUID parentReviewId, SubmitReviewDto dto) {
+    public ReviewSubmissionResultDto publishReply(UUID parentReviewId, SubmitReviewDto dto, String userId) {
         UUID resolvedSourceId = resolveSourceId(dto.getSourceId());
+        dto.setAuthorId(UUID.fromString(userId));
         ReviewDetails reply = dto.toDetails(resolvedSourceId, parentReviewId);
         reviewCommandFacade.replyToReview(resolvedSourceId, parentReviewId, reply);
         return new ReviewSubmissionResultDto(reply.getId(), resolvedSourceId);
     }
 
-    public ReviewSubmissionResultDto reactToReview(ReactToReviewDto dto) {
+    public ReviewSubmissionResultDto reactToReview(ReactToReviewDto dto, String userId) {
         UUID resolvedSourceId = resolveSourceId(dto.getSourceId());
-        reviewCommandFacade.reactToReview(resolvedSourceId, dto.getReviewId(), dto.getReaction(), dto.getUserId());
+        reviewCommandFacade.reactToReview(resolvedSourceId, dto.getReviewId(), dto.getReaction(), UUID.fromString(userId));
         return new ReviewSubmissionResultDto(dto.getReviewId(), resolvedSourceId);
     }
 

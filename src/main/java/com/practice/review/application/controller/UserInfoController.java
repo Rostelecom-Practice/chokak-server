@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -19,8 +20,8 @@ public class UserInfoController {
     private final UserInfoService userInfoService;
 
     @GetMapping("/me/reviews")
-    public List<ReviewResponseDto> getUserReviews(@RequestHeader String token) {
+    public List<ReviewResponseDto> getUserReviews(@RequestHeader("X-User-Uid") String userId) {
 
-        return userInfoService.getUserReviews(TokenUtils.extractUserId(token));
+        return userInfoService.getUserReviews(UUID.fromString(userId));
     }
 }

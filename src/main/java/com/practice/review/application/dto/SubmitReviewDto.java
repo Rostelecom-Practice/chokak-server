@@ -6,6 +6,7 @@ import com.practice.review.infra.adapters.JsonReviewDetails;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import java.time.Instant;
 import java.util.HashMap;
