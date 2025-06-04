@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 public class OrganizationQueryDto {
     private final Optional<UUID> id;
-    private final Optional<String> city;
-    private final Optional<OrganizationType> organizationType;
+    private final Optional<Integer> city;
+    private final Optional<Integer> organizationType;
     private final Optional<Integer> minRating;
 }
