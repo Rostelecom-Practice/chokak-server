@@ -34,7 +34,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
             }
             case BY_CITY -> {
                 Integer city = ((Groupings.GroupingByCity) grouping).getCity();
-                List<OrganizationEntity> orgs = organizationRepository.findALlByCityId(city);
+                List<OrganizationEntity> orgs = organizationRepository.findAllByBuilding_Street_City_Id(city);
                 if (orgs.isEmpty()) {
                     return List.of();
                 }

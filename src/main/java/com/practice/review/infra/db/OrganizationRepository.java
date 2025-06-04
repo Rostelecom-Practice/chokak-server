@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface OrganizationRepository extends JpaRepository<OrganizationEntity, UUID> {
 
 
-    List<OrganizationEntity> findALlByCityId(Integer cityId);
+    List<OrganizationEntity> findAllByBuilding_Street_City_Id(Integer cityId);
 
 
 }
