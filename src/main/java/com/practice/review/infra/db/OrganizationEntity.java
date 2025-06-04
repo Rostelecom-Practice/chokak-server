@@ -29,7 +29,15 @@ public class OrganizationEntity {
     @JoinColumn(name = "building_id", nullable = false)
     private BuildingEntity building;
 
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "street_id", nullable = false)
+    private StreetEntity street;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id", nullable = false)
+    private CityEntity city;
+
     public String getAddress() {
-        return building.getFullAddress();
+        return city.getName() + ", " + street.getName() + ", " + building.getNumber();
     }
 }

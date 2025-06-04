@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import static com.practice.review.application.grouping.Groupings.*;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,10 +48,18 @@ public class PlaceQueryService {
                 .sortBy(ReviewSorting.RELEVANT)
                 .query();
 
+        Set<UUID> organizationIds = relevantReviews.stream()
+                .map(ReviewDetails::getOrganizationId)
+                .collect(Collectors.toSet());
+
+        Map<UUID, OrganizationEntity> organizations = organizationRepository.findAllById(organizationIds)
+                .stream()
+                .collect(Collectors.toMap(OrganizationEntity::getId, Function.identity()));
+
         Map<UUID, List<ReviewDetails>> reviewsByOrganization = relevantReviews.stream()
                 .filter(review -> {
-                    Optional<OrganizationEntity> orgOpt = organizationRepository.findById(review.getOrganizationId());
-                    return orgOpt.isPresent() && orgOpt.get().getType() == category;
+                    OrganizationEntity org = organizations.get(review.getOrganizationId());
+                    return org != null && org.getType() == category;
                 })
                 .collect(Collectors.groupingBy(ReviewDetails::getOrganizationId));
 

@@ -1,9 +1,11 @@
 package com.practice.review.infra.db;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
 @Table(name = "buildings")
+@Getter
 public class BuildingEntity {
 
     @Id
