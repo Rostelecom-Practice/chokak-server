@@ -9,7 +9,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TestCityRestaurantsReviewSource implements ReviewSource {
 
-    public static final String BASE_URL = "http://external-service-example:8100/reviews/";
+    public static final String BASE_URL = "http://external-service-example:8100/reviews";
 
     private final UUID id;
 

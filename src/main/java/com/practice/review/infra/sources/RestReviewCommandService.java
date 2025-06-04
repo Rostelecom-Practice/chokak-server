@@ -41,21 +41,21 @@ public class RestReviewCommandService<TSubmit, TReact, TReply> implements Review
     @Override
     public void submitReview(ReviewDetails details) {
         TSubmit dto = submitMapper.apply(details);
-        postJson(baseUrl + "/reviews", dto);
+        postJson(baseUrl, dto);
         commandService.submitReview(details);
     }
 
     @Override
     public void reactToReview(UUID reviewId, ReviewReactions type, UUID userId) {
         TReact dto = reactMapper.apply(new ReactCommandParams(reviewId, type, userId));
-        postJson(baseUrl + "/reviews/" + reviewId + "/reactions", dto);
+        postJson(baseUrl + reviewId + "/reactions", dto);
         commandService.reactToReview(reviewId, type, userId);
     }
 
     @Override
     public void replyToReview(UUID reviewId, ReviewDetails reply) {
         TReply dto = replyMapper.apply(new ReplyCommandParams(reviewId, reply));
-        postJson(baseUrl + "/reviews/" + reviewId + "/replies", dto);
+        postJson(baseUrl + reviewId + "/reply", dto);
         commandService.replyToReview(reviewId, reply);
     }
 
