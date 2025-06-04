@@ -44,9 +44,9 @@ public class KafkaListenerBeanFactory {
     public void registerReviewListener(ReviewIngestionHandler handler) {
         ReviewKafkaListener listener = new ReviewKafkaListener(handler);
 
-        Method method = ReflectionUtils.findMethod(ReviewKafkaListener.class, "handleRawMessage", String.class);
+        Method method = ReflectionUtils.findMethod(ReviewKafkaListener.class, "consume", String.class);
         if (method == null) {
-            throw new IllegalStateException("Method handleRawMessage not found");
+            throw new IllegalStateException("Method consume not found");
         }
 
         MethodKafkaListenerEndpoint<String, String> endpoint = new MethodKafkaListenerEndpoint<>();
