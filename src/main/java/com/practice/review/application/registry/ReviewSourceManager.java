@@ -20,14 +20,18 @@ public class ReviewSourceManager {
 
     @PostConstruct
     public void init() {
-        for (ReviewSource source : sources) {
-            UUID id = source.sourceId();
-            sourceRegistry.register(source);
-            source.commandService().ifPresent(cmd -> commandRegistry.register(id, cmd));
-            source.ingestionAdapter().ifPresent(ing -> ingestionRegistry.register(id, ing));
-        }
+        try {
+            for (ReviewSource source : sources) {
+                UUID id = source.sourceId();
+                sourceRegistry.register(source);
+                source.commandService().ifPresent(cmd -> commandRegistry.register(id, cmd));
+                source.ingestionAdapter().ifPresent(ing -> ingestionRegistry.register(id, ing));
+            }
 
-        synchronizeAllSources();
+            synchronizeAllSources();
+        } catch (Error | Exception ignored) {
+
+        }
     }
 
     public void synchronizeAllSources() {

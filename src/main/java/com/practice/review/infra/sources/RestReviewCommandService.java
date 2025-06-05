@@ -76,6 +76,9 @@ public class RestReviewCommandService<TSubmit, TReact, TReply> implements Review
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Error during POST to " + url, e);
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static class ReactCommandParams {

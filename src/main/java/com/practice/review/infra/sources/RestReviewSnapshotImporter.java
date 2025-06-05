@@ -33,12 +33,13 @@ public class RestReviewSnapshotImporter<T> implements ReviewSnapshotImporter {
 
     @Override
     public Collection<ReviewDetails> getAllReviews() {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseUrl))
-                .GET()
-                .build();
 
         try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl))
+                    .GET()
+                    .build();
+
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() != 200) {
@@ -52,6 +53,9 @@ public class RestReviewSnapshotImporter<T> implements ReviewSnapshotImporter {
 
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Error fetching reviews", e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return List.of();
     }
 }
