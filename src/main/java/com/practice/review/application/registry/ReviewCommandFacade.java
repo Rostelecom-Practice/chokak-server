@@ -17,19 +17,31 @@ public class ReviewCommandFacade {
     public void submitReview(UUID sourceId, ReviewDetails details) {
         ReviewCommandService commandService = reviewSourceManager.getCommandService(sourceId)
                 .orElseThrow(() -> new IllegalArgumentException("Command service not found for source: " + sourceId));
-        commandService.submitReview(details);
+        try {
+            commandService.submitReview(details);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void reactToReview(UUID sourceId, UUID reviewId, ReviewReactions reactionType, UUID userId) {
         ReviewCommandService commandService = reviewSourceManager.getCommandService(sourceId)
                 .orElseThrow(() -> new IllegalArgumentException("Command service not found for source: " + sourceId));
-        commandService.reactToReview(reviewId, reactionType, userId);
+        try {
+            commandService.reactToReview(reviewId, reactionType, userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void replyToReview(UUID sourceId, UUID reviewId, ReviewDetails reply) {
         ReviewCommandService commandService = reviewSourceManager.getCommandService(sourceId)
                 .orElseThrow(() -> new IllegalArgumentException("Command service not found for source: " + sourceId));
-        commandService.replyToReview(reviewId, reply);
+        try {
+            commandService.replyToReview(reviewId, reply);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

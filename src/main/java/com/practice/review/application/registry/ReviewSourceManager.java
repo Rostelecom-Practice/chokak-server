@@ -37,14 +37,19 @@ public class ReviewSourceManager {
     }
 
     public void synchronizeSource(UUID sourceId) {
-        sourceRegistry.get(sourceId).ifPresent(source -> {
-            Collection<ReviewDetails> externalReviews = source.snapshotImporter().getAllReviews();
-            for (ReviewDetails review : externalReviews) {
-                if (!reviewRepository.existsById(review.getId())) {
-                    ingestionRegistry.get(sourceId).ifPresent(adapter -> adapter.onReviewPublished(review));
+        try {
+            sourceRegistry.get(sourceId).ifPresent(source -> {
+                Collection<ReviewDetails> externalReviews = source.snapshotImporter().getAllReviews();
+                for (ReviewDetails review : externalReviews) {
+                    if (!reviewRepository.existsById(review.getId())) {
+                        ingestionRegistry.get(sourceId).ifPresent(adapter -> adapter.onReviewPublished(review));
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Optional<ReviewCommandService> getCommandService(UUID sourceId) {
