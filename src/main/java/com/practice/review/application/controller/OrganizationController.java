@@ -1,9 +1,8 @@
 package com.practice.review.application.controller;
 
-import com.practice.review.application.dto.OrganizationQueryDto;
+import com.practice.review.application.dto.OrganizationFilterRequestDto;
 import com.practice.review.application.dto.OrganizationResponseDto;
 import com.practice.review.application.service.OrganizationQueryService;
-import com.practice.review.core.Organization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +18,9 @@ public class OrganizationController {
 
 
     @PostMapping("/query")
-    public ResponseEntity<List<OrganizationResponseDto>> query(@RequestBody OrganizationQueryDto query) {
+    public ResponseEntity<List<OrganizationResponseDto>> query(@RequestBody OrganizationFilterRequestDto query) {
         return ResponseEntity
-                .ok(organizationQueryService.findByQuery(query));
+                .ok(organizationQueryService.getFilteredReviews(query));
 
     }
 }

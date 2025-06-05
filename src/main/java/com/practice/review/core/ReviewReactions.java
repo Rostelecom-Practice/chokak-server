@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
+
+// TODO взвешенная система отзывов (насколько каждая эмодзи отражает позитивность реакции на отзыв)
+
 @Getter
 public class ReviewReactions {
 
