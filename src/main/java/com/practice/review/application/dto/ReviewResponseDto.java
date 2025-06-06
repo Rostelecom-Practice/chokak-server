@@ -14,7 +14,8 @@ public record ReviewResponseDto(
         String title,
         String content,
         Instant createdAt,
-        int rating
+        int rating,
+        String url
 ) {
     public static ReviewResponseDto from(ReviewDetails details) {
         return new ReviewResponseDto(
@@ -25,7 +26,8 @@ public record ReviewResponseDto(
                 details.getTitle(),
                 details.getContent(),
                 details.getPublishedAt(),
-                (int)(details.getRating().getValueBase5() * 5)
+                (int)(details.getRating().getValueBase5() * 5),
+                details.getUrl()
         );
     }
 
@@ -38,7 +40,8 @@ public record ReviewResponseDto(
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getPublishedAt(),
-                entity.getRating()
+                entity.getRating(),
+                entity.getImageUrl()
         );
     }
 }

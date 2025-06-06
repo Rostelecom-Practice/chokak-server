@@ -97,6 +97,11 @@ public class ReviewEntityDetailsAdapter implements ReviewDetails {
         }
     }
 
+    @Override
+    public String getUrl() {
+        return entity.getImageUrl();
+    }
+
 
 }
 

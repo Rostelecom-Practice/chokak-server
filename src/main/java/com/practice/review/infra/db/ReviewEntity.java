@@ -46,5 +46,8 @@ public class ReviewEntity {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewReactionEntity> reactions = new ArrayList<>();
 
+    @Column(nullable = true, name = "image_url")
+    private String imageUrl;
+
 
 }

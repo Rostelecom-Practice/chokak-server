@@ -32,4 +32,6 @@ public interface ReviewDetails {
     ReviewRating getRating();
 
     void setRating(ReviewRating rating);
+
+    String getUrl();
 }

@@ -10,6 +10,8 @@ import com.practice.review.infra.sources.InternalReviewSourceId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -24,6 +26,7 @@ public class ReviewClientService {
         dto.setAuthorId(UUID.fromString(userId));
         ReviewDetails review = dto.toDetails(resolvedSourceId);
         reviewCommandFacade.submitReview(resolvedSourceId, review);
+
         return new ReviewSubmissionResultDto(review.getId(), resolvedSourceId);
     }
 

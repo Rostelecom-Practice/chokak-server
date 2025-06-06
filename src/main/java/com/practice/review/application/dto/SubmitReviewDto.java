@@ -23,6 +23,7 @@ public class SubmitReviewDto {
     private String title;
     private String content;
     private ReviewRating rating;
+    private String url;
 
     public ReviewDetails toDetails(UUID sourceIdOverride) {
         return toDetails(sourceIdOverride, null);
@@ -39,7 +40,8 @@ public class SubmitReviewDto {
                 new HashMap<>(),
                 Optional.ofNullable(parentId),
                 Instant.now(),
-                rating
+                rating,
+                url
         );
     }
 }

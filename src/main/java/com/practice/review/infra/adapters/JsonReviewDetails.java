@@ -28,6 +28,7 @@ public class JsonReviewDetails implements ReviewDetails {
     private Optional<UUID> parentId;
     private Instant publishedAt;
     private ReviewRating rating;
+    private String url;
 
     @Override
     public UUID getId() {
@@ -77,5 +78,10 @@ public class JsonReviewDetails implements ReviewDetails {
     @Override
     public ReviewRating getRating() {
         return rating;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 }

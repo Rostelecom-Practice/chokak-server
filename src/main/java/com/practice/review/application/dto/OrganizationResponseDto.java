@@ -18,6 +18,7 @@ public class OrganizationResponseDto {
     private final double rating;
     private final int reviewCount;
     private final OrganizationType organizationType;
+    private final String imageUrl;
 
     public static OrganizationResponseDto from(OrganizationEntity organization, double rating, int reviewCount) {
         return new OrganizationResponseDto(
@@ -26,7 +27,8 @@ public class OrganizationResponseDto {
                 organization.getAddress(),
                 rating,
                 reviewCount,
-                organization.getType()
+                organization.getType(),
+                organization.getImageUrl()
         );
     }
 
@@ -41,13 +43,6 @@ public class OrganizationResponseDto {
         averageRating /= count;
         double rating = count * Math.sqrt(averageRating);
 
-        return new OrganizationResponseDto(
-                organization.getId(),
-                organization.getName(),
-                organization.getAddress(),
-                rating,
-                count,
-                organization.getType()
-        );
+        return OrganizationResponseDto.from(organization, rating, count);
     }
 }

@@ -37,6 +37,9 @@ public class OrganizationEntity {
     @JoinColumn(name = "city_id", nullable = false)
     private CityEntity city;
 
+    @Column(nullable = true, name = "image_url")
+    private String imageUrl;
+
     public String getAddress() {
         return city.getName() + ", " + street.getName() + ", " + building.getNumber();
     }
