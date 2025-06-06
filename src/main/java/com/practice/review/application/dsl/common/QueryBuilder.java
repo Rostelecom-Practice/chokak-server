@@ -10,10 +10,8 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class QueryBuilder<T> {
@@ -48,11 +46,27 @@ public class QueryBuilder<T> {
         return this;
     }
 
+
     public List<T> getResultList() {
-        return getResultStream().toList();
+        TypedQuery<T> query = getTypedQuery();
+        List<T> queryResult = limiter.limit(query).getResultList();
+
+        if (Objects.nonNull(this.comparator)) {
+            return queryResult.stream().sorted(this.comparator).collect(Collectors.toList());
+        }
+
+        return queryResult;
     }
 
     public Stream<T> getResultStream() {
+        TypedQuery<T> query = getTypedQuery();
+        if (Objects.nonNull(this.comparator))
+            return limiter.limit(query).getResultStream().sorted(this.comparator);
+        else
+            return limiter.limit(query).getResultStream();
+    }
+
+    private TypedQuery<T> getTypedQuery() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
         Root<T> root = cq.from(entityClass);
@@ -64,8 +78,7 @@ public class QueryBuilder<T> {
         cq.select(root).where(predicates.toArray(new Predicate[0]));
 
 
-        TypedQuery<T> query = entityManager.createQuery(cq);
-        return limiter.limit(query).getResultStream().sorted(this.comparator);
+        return entityManager.createQuery(cq);
     }
 
 }

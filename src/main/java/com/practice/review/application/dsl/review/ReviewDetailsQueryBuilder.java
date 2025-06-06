@@ -23,9 +23,7 @@ public class ReviewDetailsQueryBuilder {
         return getResultStream()
                 .toList();
 
-
     }
-
 
     public Stream<ReviewDetails> getResultStream() {
         return baseBuilder.getResultStream()
