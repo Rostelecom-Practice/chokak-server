@@ -6,7 +6,10 @@ import com.practice.review.infra.db.OrganizationType;
 import com.practice.review.infra.db.ReviewEntity;
 import lombok.Data;
 
+import javax.swing.text.html.Option;
 import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -18,7 +21,7 @@ public class OrganizationResponseDto {
     private final double rating;
     private final int reviewCount;
     private final OrganizationType organizationType;
-    private final String imageUrl;
+    private final Optional<String> imageUrl;
 
     public static OrganizationResponseDto from(OrganizationEntity organization, double rating, int reviewCount) {
         return new OrganizationResponseDto(
@@ -28,7 +31,7 @@ public class OrganizationResponseDto {
                 rating,
                 reviewCount,
                 organization.getType(),
-                organization.getImageUrl()
+                Objects.isNull(organization.getImageUrl()) ? Optional.empty() : Optional.of(organization.getImageUrl())
         );
     }
 
