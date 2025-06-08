@@ -5,6 +5,7 @@ import com.practice.review.application.dto.ReviewSubmissionResultDto;
 import com.practice.review.application.dto.SubmitReviewDto;
 import com.practice.review.application.registry.ReviewCommandFacade;
 import com.practice.review.application.registry.ReviewSourceManager;
+import com.practice.review.config.annotation.TrackMetric;
 import com.practice.review.core.ReviewDetails;
 import com.practice.review.infra.sources.InternalReviewSourceId;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class ReviewClientService {
     private final ReviewCommandFacade reviewCommandFacade;
     private final ReviewSourceManager reviewSourceManager;
 
+    @TrackMetric(type = "publish")
     public ReviewSubmissionResultDto publishReview(SubmitReviewDto dto, String userId) {
         UUID resolvedSourceId = resolveSourceId(dto.getSourceId());
         dto.setAuthorId(UUID.fromString(userId));
@@ -30,6 +32,7 @@ public class ReviewClientService {
         return new ReviewSubmissionResultDto(review.getId(), resolvedSourceId);
     }
 
+    @TrackMetric(type = "reply")
     public ReviewSubmissionResultDto publishReply(UUID parentReviewId, SubmitReviewDto dto, String userId) {
         UUID resolvedSourceId = resolveSourceId(dto.getSourceId());
         dto.setAuthorId(UUID.fromString(userId));
@@ -38,6 +41,7 @@ public class ReviewClientService {
         return new ReviewSubmissionResultDto(reply.getId(), resolvedSourceId);
     }
 
+    @TrackMetric(type = "react")
     public ReviewSubmissionResultDto reactToReview(ReactToReviewDto dto, String userId) {
         UUID resolvedSourceId = resolveSourceId(dto.getSourceId());
         reviewCommandFacade.reactToReview(resolvedSourceId, dto.getReviewId(), dto.getReaction(), UUID.fromString(userId));
