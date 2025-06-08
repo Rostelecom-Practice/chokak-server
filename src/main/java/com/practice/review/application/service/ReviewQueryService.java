@@ -6,6 +6,7 @@ import com.practice.review.application.dsl.review.ReviewSorters;
 import com.practice.review.application.dsl.review.ReviewSpecifications;
 import com.practice.review.application.dto.ReviewFilterRequestDto;
 import com.practice.review.application.dto.ReviewResponseDto;
+import com.practice.review.config.annotation.TrackMetric;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class ReviewQueryService {
 
     private final EntityManager entityManager;
 
+    @TrackMetric(type = "query")
     public List<ReviewResponseDto> getFilteredReviews(ReviewFilterRequestDto request) {
 
         ReviewQueryBuilder queryBuilder = new ReviewQueryBuilder(entityManager);
