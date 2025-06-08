@@ -16,12 +16,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Aspect
 @Component
-@RequiredArgsConstructor
 public class MetricAspect {
 
+    private static final Logger logger = LoggerFactory.getLogger(MetricAspect.class);
+
     private final MeterRegistry meterRegistry;
+
+    public MetricAspect(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        logger.info("MetricAspect initialized!");
+    }
+
 
     @AfterReturning(pointcut = "@annotation(com.practice.review.config.annotation.TrackMetric)", returning = "result")
     public void afterReviewMethod(JoinPoint joinPoint, Object result) {
@@ -31,6 +41,11 @@ public class MetricAspect {
 
         TrackMetric annotation = method.getAnnotation(TrackMetric.class);
         String metricType = annotation.type();
+
+        System.out.println("EUUU + " + metricType + " = " + result);
+        logger.info("Metric type: {}", metricType);
+        logger.info("Metric method: {}", method);
+
 
         if (result instanceof ReviewSubmissionResultDto dto) {
             String sourceId = dto.getSourceId().toString();
