@@ -1,5 +1,6 @@
 package com.practice.review.application.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.practice.review.application.dsl.common.Direction;
 import com.practice.review.infra.db.OrganizationType;
 
