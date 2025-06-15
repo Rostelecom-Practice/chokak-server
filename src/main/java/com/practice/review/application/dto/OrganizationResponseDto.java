@@ -36,30 +36,4 @@ public class OrganizationResponseDto {
         return dto;
     }
 
-    public static OrganizationResponseDto from
-            (OrganizationEntity organization, Collection<ReviewEntity> associatedReviews) {
-
-        int count = associatedReviews.size();
-        double averageRating = 0.0;
-        for (ReviewEntity review : associatedReviews) {
-            averageRating += review.getRating();
-        }
-        averageRating /= count;
-        double rating = count * Math.sqrt(averageRating);
-
-        return OrganizationResponseDto.from(organization, rating, count);
-    }
-
-    public static OrganizationResponseDto from(OrganizationEntity org, List<ReviewDetails> reviewDetailsList) {
-
-
-        int count = reviewDetailsList.size();
-        double averageRating = 0.0;
-        for (ReviewDetails reviewDetails : reviewDetailsList) {
-            averageRating += reviewDetails.getRating().getValue();
-        }
-        averageRating /= count;
-        double rating = count * Math.sqrt(averageRating);
-        return from(org, rating, count);
-    }
 }

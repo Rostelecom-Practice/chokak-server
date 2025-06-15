@@ -1,6 +1,8 @@
 package com.practice.review.application.dsl.organization;
 
 import com.practice.review.application.dto.OrganizationResponseDto;
+import com.practice.review.application.service.RatingCalculator;
+import com.practice.review.application.service.RatingCalculatorFactory;
 import com.practice.review.core.ReviewDetails;
 import com.practice.review.infra.db.OrganizationEntity;
 import com.practice.review.infra.db.ReviewEntity;
@@ -18,24 +20,37 @@ public class OrganizationSortingContext {
 
     private final ReviewRepository reviewRepository;
 
+    private final RatingCalculatorFactory ratingCalculatorFactory;
+
 
     public Stream<OrganizationResponseDto> sortByRelevanceAndMap(
             Stream<OrganizationEntity> stream,
             Map<UUID, List<ReviewDetails>> reviewsMap) {
 
+        RatingCalculator ratingCalculator = ratingCalculatorFactory.createCalculator();
+
         return stream.map(org -> OrganizationResponseDto.from(org,
-                        reviewsMap.getOrDefault(org.getId(), Collections.emptyList())))
+                ratingCalculator.calculateRating(
+                        reviewsMap.getOrDefault(org.getId(), Collections.emptyList())
+                ), reviewsMap.getOrDefault(org.getId(), Collections.emptyList()).size()))
                 .sorted(Comparator.comparingDouble(OrganizationResponseDto::getRating));
+
     }
 
     public Stream<OrganizationResponseDto> sortByPopularityAndMap(
             Stream<OrganizationEntity> stream,
             Map<UUID, List<ReviewDetails>> reviewsMap) {
 
+        RatingCalculator ratingCalculator = ratingCalculatorFactory.createCalculator();
+
         return stream.map(org -> OrganizationResponseDto.from(org,
-                        reviewsMap.getOrDefault(org.getId(), Collections.emptyList())))
+                        ratingCalculator.calculateRating(
+                                reviewsMap.getOrDefault(org.getId(), Collections.emptyList())
+                        ), reviewsMap.getOrDefault(org.getId(), Collections.emptyList()).size()))
                 .sorted(Comparator.comparingDouble(OrganizationResponseDto::getReviewCount));
+
     }
+
 
 
 
