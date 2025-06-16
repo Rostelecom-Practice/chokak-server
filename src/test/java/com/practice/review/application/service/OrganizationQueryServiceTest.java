@@ -19,9 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,6 +27,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyList;
 
 class OrganizationQueryServiceTest {
 
@@ -40,6 +39,9 @@ class OrganizationQueryServiceTest {
 
     @Mock com.practice.review.infra.db.ReviewRepository infraReviewRepo;
     @Mock ReviewRepository coreReviewRepo;
+
+    @Mock RatingCalculatorFactory ratingCalculatorFactory;
+    @Mock RatingCalculator ratingCalculator;
 
     private OrganizationSortingContext sortingContext;
     private OrganizationQueryService service;
@@ -55,7 +57,9 @@ class OrganizationQueryServiceTest {
         when(cq.where(any(Predicate[].class))).thenReturn(cq);
         when(em.createQuery(cq)).thenReturn(typedQuery);
 
-        sortingContext = new OrganizationSortingContext(infraReviewRepo);
+        when(ratingCalculatorFactory.createCalculator()).thenReturn(ratingCalculator);
+
+        sortingContext = new OrganizationSortingContext(infraReviewRepo, ratingCalculatorFactory);
         service = new OrganizationQueryService(em, sortingContext, coreReviewRepo);
     }
 
@@ -75,28 +79,17 @@ class OrganizationQueryServiceTest {
 
         ReviewDetails rd1 = mock(ReviewDetails.class);
         when(rd1.getOrganizationId()).thenReturn(id1);
-        when(rd1.getRating()).thenReturn(new com.practice.review.core.ReviewRating(1));
-        when(rd1.getPublishedAt()).thenReturn(Instant.EPOCH);
-        when(rd1.getReactions()).thenReturn(Map.of());
-        when(rd1.getContent()).thenReturn("");
 
         ReviewDetails rd2a = mock(ReviewDetails.class);
         when(rd2a.getOrganizationId()).thenReturn(id2);
-        when(rd2a.getRating()).thenReturn(new com.practice.review.core.ReviewRating(1));
-        when(rd2a.getPublishedAt()).thenReturn(Instant.EPOCH);
-        when(rd2a.getReactions()).thenReturn(Map.of());
-        when(rd2a.getContent()).thenReturn("");
 
         ReviewDetails rd2b = mock(ReviewDetails.class);
         when(rd2b.getOrganizationId()).thenReturn(id2);
-        when(rd2b.getRating()).thenReturn(new com.practice.review.core.ReviewRating(1));
-        when(rd2b.getPublishedAt()).thenReturn(Instant.EPOCH);
-        when(rd2b.getReactions()).thenReturn(Map.of());
-        when(rd2b.getContent()).thenReturn("");
 
         doReturn(List.of(rd1, rd2a, rd2b))
                 .when(coreReviewRepo).findByOrganizationIds(List.of(id1, id2));
 
+        when(ratingCalculator.calculateRating(anyList())).thenReturn(1.0);
 
         OrganizationFilterRequestDto req = new OrganizationFilterRequestDto(
                 Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),
@@ -130,20 +123,19 @@ class OrganizationQueryServiceTest {
 
         ReviewDetails rA = mock(ReviewDetails.class);
         when(rA.getOrganizationId()).thenReturn(idA);
-        when(rA.getRating()).thenReturn(new com.practice.review.core.ReviewRating(4));
-        when(rA.getPublishedAt()).thenReturn(Instant.now());
-        when(rA.getReactions()).thenReturn(Map.of());
-        when(rA.getContent()).thenReturn("");
 
         ReviewDetails rB = mock(ReviewDetails.class);
         when(rB.getOrganizationId()).thenReturn(idB);
-        when(rB.getRating()).thenReturn(new com.practice.review.core.ReviewRating(9));
-        when(rB.getPublishedAt()).thenReturn(Instant.now());
-        when(rB.getReactions()).thenReturn(Map.of());
-        when(rB.getContent()).thenReturn("");
 
         doReturn(List.of(rA, rB))
                 .when(coreReviewRepo).findByOrganizationIds(List.of(idA, idB));
+
+        when(ratingCalculator.calculateRating(argThat(list ->
+                list != null && list.stream().anyMatch(r -> r.getOrganizationId().equals(idA))
+        ))).thenReturn(2.0);
+        when(ratingCalculator.calculateRating(argThat(list ->
+                list != null && list.stream().anyMatch(r -> r.getOrganizationId().equals(idB))
+        ))).thenReturn(3.0);
 
         OrganizationFilterRequestDto req = new OrganizationFilterRequestDto(
                 Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(),
@@ -160,4 +152,5 @@ class OrganizationQueryServiceTest {
         assertThat(result.get(0).getRating()).isEqualTo(3.0);
         assertThat(result.get(1).getRating()).isEqualTo(2.0);
     }
+
 }

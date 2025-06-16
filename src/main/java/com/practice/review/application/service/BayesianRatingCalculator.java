@@ -1,7 +1,5 @@
 package com.practice.review.application.service;
 
-
-
 import com.practice.review.core.ReviewDetails;
 
 import java.util.List;
