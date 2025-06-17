@@ -20,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(classes = KafkaConfig.class)
 @TestPropertySource(properties = {
         "spring.kafka.bootstrap-servers=localhost:9092",
-        "spring.kafka.consumer.group-id=test-group"
+        "spring.kafka.consumer.group-id=test-group",
+        "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration"
 })
 public class KafkaConfigTest {
 
