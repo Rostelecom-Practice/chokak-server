@@ -45,7 +45,7 @@ public class ReviewCommandController {
     }
 
     @PostMapping("/query")
-    public List<ReviewResponseDto> reactToReview(@RequestBody ReviewFilterRequestDto dto) {
+    public List<ReviewResponseDto> query(@RequestBody ReviewFilterRequestDto dto) {
         return reviewQueryService.getFilteredReviews(dto);
     }
 }

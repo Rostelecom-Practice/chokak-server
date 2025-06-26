@@ -17,6 +17,8 @@ public class ReviewCommandFacade {
     public void submitReview(UUID sourceId, ReviewDetails details) {
         ReviewCommandService commandService = reviewSourceManager.getCommandService(sourceId)
                 .orElseThrow(() -> new IllegalArgumentException("Command service not found for source: " + sourceId));
+
+        System.out.println("Resolved review source: " + sourceId + " details: " + details + " service: " + commandService);
         try {
             commandService.submitReview(details);
         } catch (Exception e) {

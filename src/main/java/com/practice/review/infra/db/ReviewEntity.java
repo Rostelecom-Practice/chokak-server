@@ -4,9 +4,7 @@ import com.practice.review.core.ReviewDetails;
 import com.practice.review.core.ReviewRating;
 import com.practice.review.core.ReviewReactions;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.*;
@@ -16,6 +14,8 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ReviewEntity {
 
     @Id
