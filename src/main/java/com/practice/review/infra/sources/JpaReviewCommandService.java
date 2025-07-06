@@ -36,9 +36,7 @@ public class JpaReviewCommandService implements ReviewCommandService {
         reviewReactionEntity.setValue(type.getValue());
 
         reviewReactionRepository.save(reviewReactionEntity);
-        // реакция должна обрабатываться отдельно — создай ReactionEntity и сохрани
-        // затем можно отправить Kafka-событие
-        // kafkaReviewProducer.sendReviewReacted(reviewId, type, userId); // если такое событие будет
+        
     }
 
     @Override

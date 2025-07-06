@@ -4,6 +4,7 @@ import com.practice.review.core.ReviewReactions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -14,5 +15,6 @@ public class ReactToReviewDto {
     private UUID sourceId;
     private UUID reviewId;
     private ReviewReactions reaction;
+    @Setter
     private UUID userId;
 }
